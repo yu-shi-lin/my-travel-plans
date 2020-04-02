@@ -1,0 +1,63 @@
+#include<iostream>
+#include<string>
+#include<stdlib.h>
+#include<time.h>
+using namespace std;
+int randnum2(int min,int max)   //获得随机数
+{
+   int ranum=0;
+   ranum=rand();
+   while(ranum>max)
+   {
+      ranum%=max;//保证min<b<max
+      if(ranum<min)
+      {
+        ranum=rand();
+      }
+   }
+   return ranum;
+}
+double answer(int ope,double num1,double num2)
+{
+    double ans=0;
+    if(ope==0)
+    {
+        ans=num1+num2;
+    }
+    if(ope==1)
+    {
+        ans=num1-num2;
+    }
+    if(ope==2)
+    {
+        ans=num1*num2;
+    }
+    if(ope==3)
+    {
+        ans=num1/num2;
+    }
+    return ans;
+}
+double  question(int max,int min,int numam)
+{
+    int a[100],i=2,j=0,num=0;
+    double b[100];
+    string str="+-*/";
+    num=randnum2(i,numam);
+    i=0;
+    while(i<=num*3)                  // 初始化数组
+    {
+        a[i]=randnum2(min,max);
+        b[i]=a[i];
+        i++;
+    }
+    while(j<=num*3)
+    {
+        a[j]%=4;//运算符
+        a[j+1]%=2;//括号
+        if(a[j+1]==1)
+        {
+           a[j+4]=-1;
+        }
+        j+=3;
+    }
