@@ -126,3 +126,121 @@ double  question(int max,int min,int numam)
     }
     return ans;
 }
+double  question1(int max,int min,int numam)
+{
+    int a[100],i=2,j=0,num=0;
+    double b[100];
+    string str="+-";
+    num=randnum2(i,numam);
+    i=0;
+    while(i<=num*3)                  // 初始化数组
+    {
+        a[i]=randnum2(min,max);
+        b[i]=a[i];
+        i++;
+    }
+    while(j<=num*3)
+    {
+        a[j]%=2;//运算符
+        a[j+1]%=2;//括号
+        if(a[j+1]==1)
+        {
+           a[j+4]=-1;
+        }
+        j+=3;
+    }
+
+    int t=0;
+    i=0;
+    j=1;
+    while(j<=num*3)                            //输出式子
+    {
+        if(a[j]==1&&j<num*3-3&&a[j+2]!=2&&a[j+2]!=3)
+			cout<<"(";
+        cout<<a[j+1];
+        if(a[j-3]==1&&j>3&&a[j-1]!=2&&a[j-1]!=3)
+			cout<<")";
+        if(j<(num*3-3))
+			cout<<str[a[j+2]];
+        j+=3;
+    }
+
+    j=1;
+    while(j<=num*3-3)                          //计算括号
+    {
+        if(a[j]==1&&j<num*3-3&&a[j+2]!=2&&a[j+2]!=3)
+        {
+           b[j+1]=answer(a[j+2],b[j+1],b[j+4]);
+           a[j+1]=b[j+1];
+           for(int i=j+2;i<num*3-3;i++)
+           {
+              a[i]=a[i+3];
+              b[i]=b[i+3];
+           }
+           num-=1;
+        }
+        j+=3;
+    }
+    j=1;
+    while(j<=num*3-3)                                //计算乘除
+    {
+        if(a[j+2]==2||a[j+2]==3)
+        {
+
+           b[j+1]= answer(a[j+2],b[j+1],b[j+4]);
+           for(int i=j+2;i<num*3-3;i++)
+           {
+              a[i]=a[i+3];
+              b[i]=b[i+3];
+           }
+           num-=1;
+           j-=3;
+        }
+        j+=3;
+    }
+    j=1;
+    double ans=0,m=0;
+    while(j<=num*3)
+    {
+        m=b[j+1];
+        if(a[j+2]==1)
+        {
+             ans=ans-m;
+        }
+        else
+        {
+            ans=ans+m;
+        }
+        j+=3;
+    }
+    return ans;
+}
+int main()
+{
+  int quam=5,max=9, min=3,numam=5;
+  int fly=1;
+                //输入生成题目的条件
+     cout<<"一共出几道题：";
+     cin>>quam;
+     cout<<"最多几个数(10个数之间)：";
+     cin>>numam;
+     cout<<"数值范围：\n最大值：";
+     cin>>max;
+     cout<<"最小值：";
+     cin>>min;
+	 cout<<"有无乘除？有请按1，无请按0（默认有乘除）\n";
+	 cin>>fly;
+               //结束输入生成题目的条件
+    int i=1;
+    double ansin;
+    while(quam--)                            //循环一次生成一道题
+    {
+     cout<<"No."<<i++<<":   ";   //题目计数器
+	 if(fly==1)
+	     double ans=question( max, min,numam);
+	 else
+		double ans=question1( max, min,numam);
+     cout<<"=";
+  }
+  return 0;
+}
