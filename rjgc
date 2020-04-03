@@ -126,3 +126,76 @@ double  question(int max,int min,int numam)
     }
     return ans;
 }
+double  question1(int max,int min,int numam)
+{
+    int a[100],i=2,j=0,num=0;
+    double b[100];
+    string str="+-";
+    num=randnum2(i,numam);
+    i=0;
+    while(i<=num*3)                  // 初始化数组
+    {
+        a[i]=randnum2(min,max);
+        b[i]=a[i];
+        i++;
+    }
+    while(j<=num*3)
+    {
+        a[j]%=2;//运算符
+        a[j+1]%=2;//括号
+        if(a[j+1]==1)
+        {
+           a[j+4]=-1;
+        }
+        j+=3;
+    }
+
+    int t=0;
+    i=0;
+    j=1;
+    while(j<=num*3)                            //输出式子
+    {
+        if(a[j]==1&&j<num*3-3&&a[j+2]!=2&&a[j+2]!=3)
+			cout<<"(";
+        cout<<a[j+1];
+        if(a[j-3]==1&&j>3&&a[j-1]!=2&&a[j-1]!=3)
+			cout<<")";
+        if(j<(num*3-3))
+			cout<<str[a[j+2]];
+        j+=3;
+    }
+
+    j=1;
+    while(j<=num*3-3)                          //计算括号
+    {
+        if(a[j]==1&&j<num*3-3&&a[j+2]!=2&&a[j+2]!=3)
+        {
+           b[j+1]=answer(a[j+2],b[j+1],b[j+4]);
+           a[j+1]=b[j+1];
+           for(int i=j+2;i<num*3-3;i++)
+           {
+              a[i]=a[i+3];
+              b[i]=b[i+3];
+           }
+           num-=1;
+        }
+        j+=3;
+    }
+    j=1;
+    while(j<=num*3-3)                                //计算乘除
+    {
+        if(a[j+2]==2||a[j+2]==3)
+        {
+
+           b[j+1]= answer(a[j+2],b[j+1],b[j+4]);
+           for(int i=j+2;i<num*3-3;i++)
+           {
+              a[i]=a[i+3];
+              b[i]=b[i+3];
+           }
+           num-=1;
+           j-=3;
+        }
+        j+=3;
+    }
+    j=1;
