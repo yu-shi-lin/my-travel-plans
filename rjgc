@@ -199,3 +199,48 @@ double  question1(int max,int min,int numam)
         j+=3;
     }
     j=1;
+   double ans=0,m=0;
+    while(j<=num*3)
+    {
+        m=b[j+1];
+        if(a[j+2]==1)
+        {
+             ans=ans-m;
+        }
+        else
+        {
+            ans=ans+m;
+        }
+        j+=3;
+    }
+    return ans;
+}
+int main()
+{
+  int quam=5,max=9, min=3,numam=5;
+  int fly=1;
+                //输入生成题目的条件
+     cout<<"一共出几道题：";
+     cin>>quam;
+     cout<<"最多几个数(10个数之间)：";
+     cin>>numam;
+     cout<<"数值范围：\n最大值：";
+     cin>>max;
+     cout<<"最小值：";
+     cin>>min;
+	 cout<<"有无乘除？有请按1，无请按0（默认有乘除）\n";
+	 cin>>fly;
+               //结束输入生成题目的条件
+    int i=1;
+    double ansin;
+    while(quam--)                            //循环一次生成一道题
+    {
+     cout<<"No."<<i++<<":   ";   //题目计数器
+	 if(fly==1)
+	     double ans=question( max, min,numam);
+	 else
+		double ans=question1( max, min,numam);
+     cout<<"=";
+  }
+  return 0;
+}
